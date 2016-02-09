@@ -237,6 +237,7 @@
 				ADD94C871C6A3ED300FED878 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

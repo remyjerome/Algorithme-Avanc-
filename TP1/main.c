@@ -15,13 +15,16 @@ void triFusion(int * tab,int p,int q);
 void fusionTableau(int * tab,int p,int q,int r);
 void quickSort(int * tableau, int debut, int fin);
 void echanger(int tableau[], int a, int b);
+void triRapide(int * tab, int p, int q);
+int partitionner(int * tab, int p,int q);
 
 int main(int argc, const char * argv[]) {
 
     int tab[] = {7,2,1,8,4,9,0,3,5,6};
     //afficheTableau(tab, 10);
     //triFusion(tab, 0, 9);
-    quickSort(tab, 0, 9);
+    //quickSort(tab, 0, 9);
+    triRapide(tab, 0, 9);
     afficheTableau(tab, 10);
     return 0;
 }
@@ -31,8 +34,9 @@ void afficheTableau(int * tab, int taille)
     int i;
     for(i=0;i<taille;i++)
     {
-        printf("tab[%d]=%d\n",i,tab[i]);
+        printf("tab[%d]=%d,",i,tab[i]);
     }
+    printf("\n");
 }
 
 void triFusion(int * tab,int p,int q)
@@ -93,20 +97,17 @@ void echanger(int tableau[], int a, int b)
     tableau[a] = tableau[b];
     tableau[b] = temp;
 }
-//Code openclassroom
+
 void quickSort(int * tableau, int debut, int fin)
 {
     int gauche = debut-1;
     int droite = fin+1;
     const int pivot = tableau[debut];
     
-    /* Si le tableau est de longueur nulle, il n'y a rien à faire. */
+
     if(debut >= fin)
         return;
-    
-    /* Sinon, on parcourt le tableau, une fois de droite à gauche, et une
-     autre de gauche à droite, à la recherche d'éléments mal placés,
-     que l'on permute. Si les deux parcours se croisent, on arrête. */
+
     while(1)
     {
         do droite--; while(tableau[droite] > pivot);
@@ -117,10 +118,45 @@ void quickSort(int * tableau, int debut, int fin)
         else break;
     }
     
-    /* Maintenant, tous les éléments inférieurs au pivot sont avant ceux
-     supérieurs au pivot. On a donc deux groupes de cases à trier. On utilise
-     pour cela... la méthode quickSort elle-même ! */
+
     quickSort(tableau, debut, droite);
     quickSort(tableau, droite+1, fin);
 }
+
+void triRapide(int * tab, int p, int q)
+{
+    int r=0;
+    if (p < q)
+    {
+        r = partitionner(tab, p, q);
+        triRapide(tab, p, r);
+        triRapide(tab, r+1, q);
+    }
+}
+int partitionner(int * tab, int p,int q)
+{
+    int clef = tab[p];
+    int i = p-1;
+    int j = q+1;
+    while (1)
+    {
+        do
+        {
+            j --;
+        }while (tab[j]>clef);
+        do
+        {
+            i ++;
+        }while (tab[i]<clef);
+        if(i<j)
+        {
+            echanger(tab, i, j);
+        }
+        else
+        {
+            return j;
+        }
+    }
+}
+
 
